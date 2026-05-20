@@ -1,6 +1,6 @@
 <?php
 
-$SENHA = 'Miguel1B2026';
+$SENHA = '***********';
 
 session_start();
 
