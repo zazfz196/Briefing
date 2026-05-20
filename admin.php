@@ -1,10 +1,5 @@
 <?php
-// ============================================
-// admin.php — Painel para ver clientes
-// Proteja este arquivo com senha no servidor!
-// ============================================
 
-// ===== SENHA DE ACESSO (MUDE ANTES DE SUBIR) =====
 $SENHA = 'Miguel1B2026';
 
 session_start();
@@ -25,7 +20,6 @@ if (isset($_GET['sair'])) {
 
 $logado = $_SESSION['logado'] ?? false;
 
-// Carrega clientes se logado
 $clientes = [];
 if ($logado) {
     $db_path = __DIR__ . '/banco/clientes.db';

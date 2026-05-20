@@ -1,8 +1,3 @@
-// ============================================
-// CABO FRIO EXCURSÕES — script.js
-// ============================================
-
-// ===== MENU MOBILE =====
 const hamburger = document.getElementById('hamburger');
 const navMobile = document.getElementById('nav-mobile');
 
@@ -14,7 +9,6 @@ function fecharMenu() {
   navMobile.classList.remove('open');
 }
 
-// ===== MÁSCARA DE TELEFONE =====
 document.getElementById('telefone').addEventListener('input', function (e) {
   let v = e.target.value.replace(/\D/g, '');
   if (v.length > 11) v = v.slice(0, 11);
@@ -28,7 +22,6 @@ document.getElementById('telefone').addEventListener('input', function (e) {
   e.target.value = v;
 });
 
-// ===== ENVIO DO FORMULÁRIO =====
 async function enviarFormulario() {
   const nome     = document.getElementById('nome').value.trim();
   const telefone = document.getElementById('telefone').value.trim();
@@ -38,7 +31,6 @@ async function enviarFormulario() {
   const data     = document.getElementById('data').value;
   const mensagem = document.getElementById('mensagem').value.trim();
 
-  // Validação simples
   if (!nome || !telefone || !pacote || !pessoas) {
     alert('Por favor, preencha todos os campos obrigatórios (*).');
     return;
@@ -69,7 +61,6 @@ async function enviarFormulario() {
   }
 }
 
-// ===== NAVBAR SCROLL EFEITO =====
 window.addEventListener('scroll', () => {
   const header = document.querySelector('header');
   if (window.scrollY > 60) {
