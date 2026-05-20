@@ -1,0 +1,11 @@
+# Banco de dados (não commitar no Git)
+banco/clientes.db
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+*.swp
+*.swo
