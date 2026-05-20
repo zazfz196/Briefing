@@ -661,7 +661,6 @@ footer {
   color: rgba(255,255,255,0.4);
 }
 
-/* ===== RESPONSIVO ===== */
 @media (max-width: 900px) {
   .destaques { grid-template-columns: repeat(2, 1fr); }
   .cards-grid { grid-template-columns: 1fr; max-width: 440px; margin: 0 auto; }
