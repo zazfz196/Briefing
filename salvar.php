@@ -4,6 +4,8 @@ header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Content-Type');
+header('X-Content-Type-Options: nosniff');
+header('X-Frame-Options: DENY');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
@@ -29,6 +31,31 @@ foreach ($campos as $campo) {
     }
 }
 
+if (strlen(trim($dados['nome'])) > 150) {
+    http_response_code(422);
+    echo json_encode(['erro' => 'Nome muito longo']);
+    exit;
+}
+
+if (!preg_match('/^\(\d{2}\) \d{4,5}-\d{4}$/', trim($dados['telefone']))) {
+    http_response_code(422);
+    echo json_encode(['erro' => 'Telefone inválido']);
+    exit;
+}
+
+if (!in_array($dados['pacote'], ['fds', 'semana', 'feriado'])) {
+    http_response_code(422);
+    echo json_encode(['erro' => 'Pacote inválido']);
+    exit;
+}
+
+$pessoas = (int)$dados['pessoas'];
+if ($pessoas < 1 || $pessoas > 20) {
+    http_response_code(422);
+    echo json_encode(['erro' => 'Número de pessoas inválido']);
+    exit;
+}
+
 $db_path = __DIR__ . '/banco/clientes.db';
 
 if (!is_dir(__DIR__ . '/banco')) {
@@ -36,8 +63,10 @@ if (!is_dir(__DIR__ . '/banco')) {
 }
 
 try {
-    $pdo = new PDO('sqlite:' . $db_path);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo = new PDO('sqlite:' . $db_path, null, null, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_EMULATE_PREPARES => false
+    ]);
 
     $pdo->exec("
         CREATE TABLE IF NOT EXISTS clientes (
@@ -49,23 +78,25 @@ try {
             pessoas   INTEGER NOT NULL,
             data_pref TEXT,
             mensagem  TEXT,
+            ip        TEXT,
             criado_em TEXT    DEFAULT (datetime('now','localtime'))
         )
     ");
 
     $stmt = $pdo->prepare("
-        INSERT INTO clientes (nome, telefone, email, pacote, pessoas, data_pref, mensagem)
-        VALUES (:nome, :telefone, :email, :pacote, :pessoas, :data_pref, :mensagem)
+        INSERT INTO clientes (nome, telefone, email, pacote, pessoas, data_pref, mensagem, ip)
+        VALUES (:nome, :telefone, :email, :pacote, :pessoas, :data_pref, :mensagem, :ip)
     ");
 
     $stmt->execute([
-        ':nome'     => trim($dados['nome']),
-        ':telefone' => trim($dados['telefone']),
-        ':email'    => trim($dados['email'] ?? ''),
-        ':pacote'   => trim($dados['pacote']),
-        ':pessoas'  => (int)$dados['pessoas'],
-        ':data_pref'=> trim($dados['data'] ?? ''),
-        ':mensagem' => trim($dados['mensagem'] ?? ''),
+        ':nome'      => trim($dados['nome']),
+        ':telefone'  => trim($dados['telefone']),
+        ':email'     => trim($dados['email'] ?? ''),
+        ':pacote'    => trim($dados['pacote']),
+        ':pessoas'   => $pessoas,
+        ':data_pref' => trim($dados['data'] ?? ''),
+        ':mensagem'  => trim($dados['mensagem'] ?? ''),
+        ':ip'        => $_SERVER['REMOTE_ADDR'] ?? 'unknown'
     ]);
 
     http_response_code(200);
@@ -73,5 +104,6 @@ try {
 
 } catch (Exception $e) {
     http_response_code(500);
-    echo json_encode(['erro' => 'Erro interno: ' . $e->getMessage()]);
+    echo json_encode(['erro' => 'Erro interno']);
+    error_log("Erro salvar.php: " . $e->getMessage());
 }

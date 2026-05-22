@@ -1,12 +1,15 @@
 <?php
-//a senha pode ser definida pelo dono do site(no caso, leo)
-$SENHA = '********';
+
+// ===== SENHA DE ACESSO =====
+$SENHA = 'LeoTatu2026';
 
 session_start();
+session_regenerate_id(true);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['senha'])) {
     if ($_POST['senha'] === $SENHA) {
         $_SESSION['logado'] = true;
+        $_SESSION['login_time'] = time();
     } else {
         $erro = true;
     }
@@ -19,6 +22,11 @@ if (isset($_GET['sair'])) {
 }
 
 $logado = $_SESSION['logado'] ?? false;
+
+if ($logado && (time() - ($_SESSION['login_time'] ?? 0) > 1800)) {
+    session_destroy();
+    $logado = false;
+}
 
 $clientes = [];
 if ($logado) {
@@ -138,7 +146,7 @@ $pacotes = [
   <div class="login-wrap">
     <div class="login-box">
       <h2>🌊 Admin</h2>
-      <p>Cabo Frio Excursões — Painel de Clientes</p>
+      <p>Cabo Frio Excursões — Painel de Clientes(Interessados)</p>
       <?php if (!empty($erro)): ?>
         <p class="erro-msg">Senha incorreta. Tente novamente.</p>
       <?php endif; ?>
@@ -151,7 +159,7 @@ $pacotes = [
 
 <?php else: ?>
   <div class="admin-header">
-    <h1>🌊 Cabo Frio Excursões — Painel de Clientes</h1>
+    <h1>🌊 Cabo Frio Excursões — Painel de Clientes(Interessados)</h1>
     <a href="?sair=1">Sair</a>
   </div>
 
@@ -165,7 +173,7 @@ $pacotes = [
     <div class="stats">
       <div class="stat-card">
         <strong><?= count($clientes) ?></strong>
-        <span>Total de leads</span>
+        <span>Total de interessados</span>
       </div>
       <div class="stat-card">
         <strong><?= array_sum(array_column($clientes, 'pessoas')) ?: 0 ?></strong>
