@@ -1,6 +1,6 @@
 <?php
-
-$SENHA = '***********';
+//a senha pode ser definida pelo dono do site(no caso, leo)
+$SENHA = '********';
 
 session_start();
 
