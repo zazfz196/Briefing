@@ -1,7 +1,7 @@
 <?php
-
+// a senha de acesso será definida por LeoTatu(senha default será passada na entrega do site)
 // ===== SENHA DE ACESSO =====
-$SENHA = 'LeoTatu2026';
+$SENHA = '********';
 
 session_start();
 session_regenerate_id(true);
