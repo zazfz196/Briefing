@@ -61,6 +61,8 @@ async function enviarFormulario() {
   }
 }
 
+const progressBar = document.getElementById('progressBar');
+
 window.addEventListener('scroll', () => {
   const header = document.querySelector('header');
   if (window.scrollY > 60) {
@@ -68,4 +70,20 @@ window.addEventListener('scroll', () => {
   } else {
     header.style.boxShadow = '0 2px 12px rgba(0,0,0,0.25)';
   }
+
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  progressBar.style.width = progress + '%';
 });
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal-up').forEach(el => observer.observe(el));

@@ -1,3 +1,25 @@
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--azul-claro), #7ecfe8);
+  z-index: 999;
+  transition: width 0.1s linear;
+}
+
+.reveal-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 :root {
   --azul: #1a5f7a;
   --azul-claro: #2980b9;
@@ -37,7 +59,6 @@ img { display: block; max-width: 100%; }
   padding: 0 24px;
 }
 
-/* ===== NAVBAR ===== */
 header {
   position: sticky;
   top: 0;
@@ -115,7 +136,6 @@ header {
 
 .nav-mobile.open { display: flex; }
 
-/* ===== HERO ===== */
 .hero {
   position: relative;
   min-height: 92vh;
@@ -192,12 +212,25 @@ header {
   letter-spacing: 0.3px;
   transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
   box-shadow: 0 4px 16px rgba(41,128,185,0.45);
+  position: relative;
+  overflow: hidden;
 }
+
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.15);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.btn-primary:hover::after { opacity: 1; }
 
 .btn-primary:hover {
   background: #1c6ea4;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(41,128,185,0.5);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(41,128,185,0.55);
 }
 
 .hero-scroll {
@@ -264,7 +297,6 @@ header {
   line-height: 1.4;
 }
 
-/* ===== SEÇÕES GERAIS ===== */
 .section-title {
   font-family: 'Playfair Display', serif;
   font-size: clamp(1.7rem, 3.5vw, 2.4rem);
@@ -285,7 +317,6 @@ header {
 
 .section-sub.light { color: rgba(255,255,255,0.75); }
 
-/* ===== EXCURSÕES ===== */
 .excursoes {
   padding: 80px 0;
   background: var(--cinza-claro);
@@ -309,8 +340,12 @@ header {
 }
 
 .card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--sombra-hover);
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.16);
+}
+
+.card:hover .card-img {
+  transform: scale(1.05);
 }
 
 .card-badge {
@@ -332,6 +367,7 @@ header {
   min-height: 220px;
   background-size: cover;
   background-position: center;
+  transition: transform 0.5s ease;
 }
 
 .card-img-1 {
@@ -430,7 +466,6 @@ header {
 
 .btn-card:hover { background: var(--azul-claro); }
 
-/* ===== SOBRE ===== */
 .sobre {
   padding: 80px 0;
   background: var(--branco);
@@ -541,6 +576,12 @@ header {
   border-radius: var(--radius);
   padding: 22px 20px;
   box-shadow: var(--sombra);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.pilar:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sombra-hover);
 }
 
 .pilar-icon {
@@ -563,7 +604,6 @@ header {
   line-height: 1.45;
 }
 
-/* ===== RESERVA ===== */
 .reserva {
   padding: 80px 0;
   background: linear-gradient(135deg, var(--azul-escuro) 0%, var(--azul) 100%);
@@ -672,7 +712,6 @@ header {
   text-align: center;
 }
 
-/* ===== RODAPÉ ===== */
 footer {
   background: #0a2a36;
   color: rgba(255,255,255,0.75);

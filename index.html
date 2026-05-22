@@ -8,8 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet" />
 </head>
 <body>
-
-  <!-- CABEÇALHO -->
+  <div class="progress-bar" id="progressBar"></div>
   <header>
     <nav class="navbar">
       <div class="logo">🌊 Cabo Frio Excursões</div>
@@ -28,8 +27,6 @@
       <li><a href="#reserva" onclick="fecharMenu()">Reservar</a></li>
     </ul>
   </header>
-
-  <!-- HERO -->
   <section class="hero" id="inicio">
     <div class="hero-overlay"></div>
     <div class="hero-content">
@@ -41,32 +38,38 @@
     <div class="hero-scroll">↓</div>
   </section>
 
-  <!-- DESTAQUES -->
-  <section class="destaques">
+  <section class="destaques reveal-up">
     <div class="destaque-item">
       <span class="destaque-icon">🚌</span>
-      <strong>Ônibus confortável</strong>
-      <p>Viagem tranquila com poltronas reclináveis e ar-condicionado</p>
+      <div>
+        <strong>Ônibus confortável</strong>
+        <p>Viagem tranquila com poltronas reclináveis e ar-condicionado</p>
+      </div>
     </div>
     <div class="destaque-item">
       <span class="destaque-icon">🏨</span>
-      <strong>Hospedagem incluída</strong>
-      <p>Pousadas selecionadas próximas à praia</p>
+      <div>
+        <strong>Hospedagem incluída</strong>
+        <p>Pousadas selecionadas próximas à praia</p>
+      </div>
     </div>
     <div class="destaque-item">
       <span class="destaque-icon">💰</span>
-      <strong>Melhor preço</strong>
-      <p>Parcelamos em até 6x sem juros no cartão</p>
+      <div>
+        <strong>Melhor preço</strong>
+        <p>Parcelamos em até 6x sem juros no cartão</p>
+      </div>
     </div>
     <div class="destaque-item">
       <span class="destaque-icon">📞</span>
-      <strong>Suporte 24h</strong>
-      <p>Atendimento pelo WhatsApp durante toda a viagem</p>
+      <div>
+        <strong>Suporte 24h</strong>
+        <p>Atendimento pelo WhatsApp durante toda a viagem</p>
+      </div>
     </div>
   </section>
 
-  <!-- EXCURSÕES -->
-  <section class="excursoes" id="excursoes">
+  <section class="excursoes reveal-up" id="excursoes">
     <div class="container">
       <h2 class="section-title">Nossas Excursões</h2>
       <p class="section-sub">Saídas mensais de Belo Horizonte para Cabo Frio</p>
@@ -145,8 +148,7 @@
     </div>
   </section>
 
-  <!-- SOBRE -->
-  <section class="sobre" id="sobre">
+  <section class="sobre reveal-up" id="sobre">
     <div class="container sobre-inner">
       <div class="sobre-texto">
         <h2>Por que viajar com a gente?</h2>
@@ -168,7 +170,7 @@
     </div>
   </section>
 
-  <section class="confianca">
+  <section class="confianca reveal-up">
     <div class="container">
       <div class="confianca-inner">
         <div class="confianca-texto">
@@ -203,8 +205,7 @@
     </div>
   </section>
 
-  <!-- FORMULÁRIO DE RESERVA -->
-  <section class="reserva" id="reserva">
+  <section class="reserva reveal-up" id="reserva">
     <div class="container">
       <h2 class="section-title light">Garanta sua vaga</h2>
       <p class="section-sub light">Preencha o formulário e entraremos em contato para confirmar sua reserva</p>
@@ -263,8 +264,6 @@
 
     </div>
   </section>
-
-  <!-- RODAPÉ -->
   <footer>
     <div class="container footer-inner">
       <div class="footer-col">
