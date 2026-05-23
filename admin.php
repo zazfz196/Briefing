@@ -1,7 +1,6 @@
 <?php
-// a senha de acesso será definida por LeoTatu(senha default será passada na entrega do site)
-// ===== SENHA DE ACESSO =====
-$SENHA = '********';
+
+$SENHA = 'LeoTatu2026';
 
 session_start();
 session_regenerate_id(true);
@@ -61,7 +60,6 @@ $pacotes = [
     body { font-family: 'Source Sans 3', sans-serif; background: #f0f4f8; color: #2c2c2c; }
     a { color: #2980b9; text-decoration: none; }
 
-    /* LOGIN */
     .login-wrap {
       min-height: 100vh; display: flex; align-items: center; justify-content: center;
     }
@@ -85,7 +83,6 @@ $pacotes = [
     .login-box button:hover { background: #2980b9; }
     .erro-msg { color: #c0392b; font-size: 0.9rem; margin-bottom: 12px; }
 
-    /* ADMIN */
     .admin-header {
       background: #0d3d52; color: white; padding: 16px 32px;
       display: flex; align-items: center; justify-content: space-between;
@@ -169,7 +166,6 @@ $pacotes = [
       <p style="color:red;margin-bottom:20px">Erro no banco de dados: <?= htmlspecialchars($db_erro) ?></p>
     <?php endif; ?>
 
-    <!-- STATS -->
     <div class="stats">
       <div class="stat-card">
         <strong><?= count($clientes) ?></strong>
@@ -185,7 +181,6 @@ $pacotes = [
       </div>
     </div>
 
-    <!-- TABELA -->
     <?php if (empty($clientes)): ?>
       <div class="vazia">Nenhum cliente cadastrado ainda.</div>
     <?php else: ?>

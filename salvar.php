@@ -6,6 +6,7 @@ header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Content-Type');
 header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: DENY');
+header('X-XSS-Protection: 1; mode=block');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
@@ -56,6 +57,35 @@ if ($pessoas < 1 || $pessoas > 20) {
     exit;
 }
 
+$ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+$rate_file = __DIR__ . '/banco/rate_limit.json';
+
+if (file_exists($rate_file)) {
+    $rates = json_decode(file_get_contents($rate_file), true) ?: [];
+} else {
+    $rates = [];
+}
+
+$now = time();
+$window = 60;
+$max_requests = 3;
+
+if (isset($rates[$ip])) {
+    $rates[$ip] = array_filter($rates[$ip], function($t) use ($now, $window) {
+        return $t > $now - $window;
+    });
+    if (count($rates[$ip]) >= $max_requests) {
+        http_response_code(429);
+        echo json_encode(['erro' => 'Muitas solicitações. Tente novamente em 1 minuto.']);
+        exit;
+    }
+    $rates[$ip][] = $now;
+} else {
+    $rates[$ip] = [$now];
+}
+
+file_put_contents($rate_file, json_encode($rates));
+
 $db_path = __DIR__ . '/banco/clientes.db';
 
 if (!is_dir(__DIR__ . '/banco')) {
@@ -96,7 +126,7 @@ try {
         ':pessoas'   => $pessoas,
         ':data_pref' => trim($dados['data'] ?? ''),
         ':mensagem'  => trim($dados['mensagem'] ?? ''),
-        ':ip'        => $_SERVER['REMOTE_ADDR'] ?? 'unknown'
+        ':ip'        => $ip
     ]);
 
     http_response_code(200);

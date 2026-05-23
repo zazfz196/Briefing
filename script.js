@@ -36,6 +36,27 @@ async function enviarFormulario() {
     return;
   }
 
+  if (nome.length < 3 || nome.length > 150) {
+    alert('Nome deve ter entre 3 e 150 caracteres.');
+    return;
+  }
+
+  if (!/^\(\d{2}\) \d{4,5}-\d{4}$/.test(telefone)) {
+    alert('Telefone inválido. Use o formato (31) 91234-5678');
+    return;
+  }
+
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    alert('E-mail inválido.');
+    return;
+  }
+
+  const numPessoas = parseInt(pessoas);
+  if (isNaN(numPessoas) || numPessoas < 1 || numPessoas > 20) {
+    alert('Número de pessoas deve ser entre 1 e 20.');
+    return;
+  }
+
   const btn = document.querySelector('.btn-submit');
   btn.disabled = true;
   btn.textContent = 'Enviando...';
@@ -47,12 +68,14 @@ async function enviarFormulario() {
       body: JSON.stringify({ nome, telefone, email, pacote, pessoas, data, mensagem })
     });
 
-    if (response.ok) {
+    const result = await response.json();
+
+    if (response.ok && result.sucesso) {
       document.getElementById('reserva-form').style.display = 'none';
       document.getElementById('mensagem-sucesso').style.display = 'block';
       document.getElementById('mensagem-sucesso').scrollIntoView({ behavior: 'smooth', block: 'center' });
     } else {
-      throw new Error('Erro no servidor');
+      throw new Error(result.erro || 'Erro no servidor');
     }
   } catch (err) {
     document.getElementById('mensagem-erro').style.display = 'block';
