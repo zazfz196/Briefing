@@ -5,6 +5,37 @@ $SENHA = '********';
 session_start();
 session_regenerate_id(true);
 
+if (isset($_GET['export']) && $_GET['export'] === 'csv' && isset($_SESSION['logado']) && $_SESSION['logado'] === true) {
+    $db_path = __DIR__ . '/banco/clientes.db';
+    if (file_exists($db_path)) {
+        $pdo = new PDO('sqlite:' . $db_path);
+        $stmt = $pdo->query("SELECT * FROM clientes ORDER BY criado_em DESC");
+        $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename=clientes_' . date('Y-m-d_H-i-s') . '.csv');
+
+        $output = fopen('php://output', 'w');
+        fputcsv($output, ['ID', 'Nome', 'Telefone', 'E-mail', 'Pacote', 'Pessoas', 'Data Preferida', 'Mensagem', 'IP', 'Criado em']);
+
+        foreach ($clientes as $c) {
+            fputcsv($output, [
+                $c['id'],
+                $c['nome'],
+                $c['telefone'],
+                $c['email'],
+                $c['pacote'],
+                $c['pessoas'],
+                $c['data_pref'],
+                $c['mensagem'],
+                $c['ip'],
+                $c['criado_em']
+            ]);
+        }
+        exit;
+    }
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['senha'])) {
     if ($_POST['senha'] === $SENHA) {
         $_SESSION['logado'] = true;
@@ -88,9 +119,10 @@ $pacotes = [
       display: flex; align-items: center; justify-content: space-between;
     }
     .admin-header h1 { font-size: 1.2rem; }
-    .admin-header a  { color: rgba(255,255,255,0.7); font-size: 0.9rem; }
-    .admin-header a:hover { color: white; }
-
+    .admin-header .buttons a {
+      color: white; background: #2980b9; padding: 8px 16px; border-radius: 6px;
+      font-size: 0.9rem; margin-left: 10px;
+    }
     .admin-body { padding: 32px; }
 
     .stats {
@@ -157,7 +189,10 @@ $pacotes = [
 <?php else: ?>
   <div class="admin-header">
     <h1>🌊 Cabo Frio Excursões — Painel de Clientes(Interessados)</h1>
-    <a href="?sair=1">Sair</a>
+    <div class="buttons">
+      <a href="?export=csv">📥 Exportar CSV</a>
+      <a href="?sair=1">Sair</a>
+    </div>
   </div>
 
   <div class="admin-body">
