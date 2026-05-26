@@ -1,6 +1,6 @@
 <?php
 // senha default será entregue junto ao projeto(pode ser alterada pelo dono do site, LeoTatu)
-$SENHA = 'Jexu niger';
+$SENHA = '********';
 
 session_start();
 session_regenerate_id(true);
