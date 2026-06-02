@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contato — Cabo Frio Excursões</title>
+  <link rel="stylesheet" href="Cabo-Frio-Excursoes\css\style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="progress-bar" id="progressBar"></div>
+  <header>
+    <nav class="navbar">
+      <div class="logo">🌊 Cabo Frio Excursões</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Início</a></li>
+        <li><a href="index.html#excursoes">Excursões</a></li>
+        <li><a href="sobre.html">Sobre</a></li>
+        <li><a href="contato.html">Contato</a></li>
+        <li><a href="promo.html" class="btn-nav">Reservar</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger">☰</button>
+    </nav>
+    <ul class="nav-mobile" id="nav-mobile">
+      <li><a href="index.html" onclick="fecharMenu()">Início</a></li>
+      <li><a href="index.html#excursoes" onclick="fecharMenu()">Excursões</a></li>
+      <li><a href="sobre.html" onclick="fecharMenu()">Sobre</a></li>
+      <li><a href="contato.html" onclick="fecharMenu()">Contato</a></li>
+      <li><a href="promo.html" onclick="fecharMenu()">Reservar</a></li>
+    </ul>
+  </header>
+
+  <section class="contato-hero reveal-up">
+    <div class="container">
+      <h1 class="section-title">Fale com a gente</h1>
+      <p class="section-sub">Tire suas dúvidas ou mande uma mensagem pelo canal que preferir</p>
+      <div class="contato-grid">
+        <div class="contato-card">
+          <span class="contato-icon">📱</span>
+          <h3>WhatsApp</h3>
+          <p>Atendimento rápido e direto. Respondemos em poucos minutos.</p>
+          <a href="https://wa.me/5531999999999" target="_blank" class="btn-contato">Abrir WhatsApp</a>
+        </div>
+        <div class="contato-card">
+          <span class="contato-icon">📧</span>
+          <h3>E-mail</h3>
+          <p>Para orçamentos detalhados ou dúvidas que precisam de mais atenção.</p>
+          <a href="mailto:email.exemplo@gmail.com" class="btn-contato">Enviar e-mail</a>
+        </div>
+        <div class="contato-card">
+          <span class="contato-icon">📍</span>
+          <h3>Localização</h3>
+          <p>Contagem, MG — Saídas organizadas a partir da região metropolitana de BH.</p>
+          <a href="https://maps.google.com/?q=Contagem,MG" target="_blank" class="btn-contato">Ver no mapa</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contato-info reveal-up">
+    <div class="container contato-info-inner">
+      <div class="contato-info-texto">
+        <h2>Horário de atendimento</h2>
+        <p>Estamos disponíveis para tirar dúvidas e ajudar no que precisar.</p>
+        <ul class="horarios">
+          <li><strong>Segunda a sexta:</strong> 9h às 19h</li>
+          <li><strong>Sábado:</strong> 9h às 14h</li>
+          <li><strong>Domingo:</strong> Somente WhatsApp</li>
+        </ul>
+        <p>Para reservas, acesse nossa <a href="promo.html" class="link-inline">página de promoções</a> e preencha o formulário. Entraremos em contato em até 24h.</p>
+      </div>
+      <div class="contato-cta">
+        <h3>Pronto para viajar?</h3>
+        <p>Garanta sua vaga agora e deixe o resto com a gente.</p>
+        <a href="promo.html" class="btn-primary">Ver pacotes e reservar</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <div class="footer-col">
+        <h4>🌊 Cabo Frio Excursões</h4>
+        <p>Sua empresa de confiança para excursões de BH para Cabo Frio.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Links</h4>
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="index.html#excursoes">Excursões</a></li>
+          <li><a href="sobre.html">Sobre</a></li>
+          <li><a href="contato.html">Contato</a></li>
+          <li><a href="promo.html">Reservar</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contato</h4>
+        <p>📱 (31) 9 9999-9999</p>
+        <p>📧 email.exemplo@gmail.com</p>
+        <p>📍 Contagem, MG</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>2026 Cabo Frio Excursões - Leo Tatu(goat do riacho)</p>
+    </div>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>

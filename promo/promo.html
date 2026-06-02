@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reserve sua vaga — Cabo Frio Excursões</title>
+  <link rel="stylesheet" href="Cabo-Frio-Excursoes\css\style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="progress-bar" id="progressBar"></div>
+  <header>
+    <nav class="navbar">
+      <div class="logo">🌊 Cabo Frio Excursões</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Início</a></li>
+        <li><a href="index.html#excursoes">Excursões</a></li>
+        <li><a href="sobre.html">Sobre</a></li>
+        <li><a href="contato.html">Contato</a></li>
+        <li><a href="promo.html" class="btn-nav">Reservar</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger">☰</button>
+    </nav>
+    <ul class="nav-mobile" id="nav-mobile">
+      <li><a href="index.html" onclick="fecharMenu()">Início</a></li>
+      <li><a href="index.html#excursoes" onclick="fecharMenu()">Excursões</a></li>
+      <li><a href="sobre.html" onclick="fecharMenu()">Sobre</a></li>
+      <li><a href="contato.html" onclick="fecharMenu()">Contato</a></li>
+      <li><a href="promo.html" onclick="fecharMenu()">Reservar</a></li>
+    </ul>
+  </header>
+
+  <section class="promo-hero">
+    <div class="promo-hero-overlay"></div>
+    <div class="promo-hero-content">
+      <span class="hero-tag">Vagas limitadas</span>
+      <h1>Cabo Frio te espera.<br/><em>Garanta sua vaga agora.</em></h1>
+      <p>Preencha o formulário abaixo e entraremos em contato em até 24h para confirmar sua reserva.</p>
+    </div>
+  </section>
+
+  <section class="promo-form-section reveal-up">
+    <div class="container promo-layout">
+
+      <div class="promo-beneficios">
+        <h2>O que está incluído</h2>
+        <ul class="beneficios-lista">
+          <li>🚌 Ônibus confortável ida e volta</li>
+          <li>🏨 Hospedagem em pousada próxima à praia</li>
+          <li>☕ Café da manhã todos os dias</li>
+          <li>📋 Contrato e comprovante de pagamento</li>
+          <li>📱 Suporte 24h pelo WhatsApp</li>
+          <li>💳 Parcelamento em até 6x sem juros</li>
+        </ul>
+        <div class="promo-pacotes">
+          <h3>Pacotes disponíveis</h3>
+          <div class="pacote-item">
+            <span class="pacote-nome">Final de Semana</span>
+            <span class="pacote-preco">R$ 490<small>/pessoa</small></span>
+          </div>
+          <div class="pacote-item destaque">
+            <span class="pacote-nome">Semana Completa</span>
+            <span class="pacote-preco">R$ 1.190<small>/pessoa</small></span>
+          </div>
+          <div class="pacote-item">
+            <span class="pacote-nome">Feriado Prolongado</span>
+            <span class="pacote-preco">R$ 690<small>/pessoa</small></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="promo-form-wrapper">
+        <h2>Preencha seus dados</h2>
+        <p>Entraremos em contato pelo WhatsApp ou telefone.</p>
+
+        <div id="mensagem-sucesso" class="mensagem-sucesso" style="display:none">
+          ✅ Dados recebidos! Entraremos em contato em breve pelo WhatsApp ou telefone.
+        </div>
+        <div id="mensagem-erro" class="mensagem-erro" style="display:none">
+          ❌ Algo deu errado. Tente novamente ou entre em contato pelo WhatsApp.
+        </div>
+
+        <div id="reserva-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nome">Nome completo *</label>
+              <input type="text" id="nome" name="nome" placeholder="Seu nome" required />
+            </div>
+            <div class="form-group">
+              <label for="telefone">WhatsApp / Telefone *</label>
+              <input type="tel" id="telefone" name="telefone" placeholder="(31) 9 0000-0000" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">E-mail</label>
+              <input type="email" id="email" name="email" placeholder="seu@email.com" />
+            </div>
+            <div class="form-group">
+              <label for="pacote">Pacote de interesse *</label>
+              <select id="pacote" name="pacote" required>
+                <option value="">Selecione...</option>
+                <option value="fds">Final de Semana — R$ 490/pessoa</option>
+                <option value="semana">Semana Completa — R$ 1.190/pessoa</option>
+                <option value="feriado">Feriado Prolongado — R$ 690/pessoa</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="pessoas">Número de pessoas *</label>
+              <input type="number" id="pessoas" name="pessoas" min="1" max="20" placeholder="Ex: 2" required />
+            </div>
+            <div class="form-group">
+              <label for="data">Data desejada (aprox.)</label>
+              <input type="month" id="data" name="data" />
+            </div>
+          </div>
+          <div class="form-group full">
+            <label for="mensagem">Observações</label>
+            <textarea id="mensagem" name="mensagem" rows="3" placeholder="Dúvidas, pedidos especiais, número de crianças..."></textarea>
+          </div>
+          <button type="button" class="btn-submit" onclick="enviarFormulario()">Quero ser contatado →</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <div class="footer-col">
+        <h4>🌊 Cabo Frio Excursões</h4>
+        <p>Sua empresa de confiança para excursões de BH para Cabo Frio.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Links</h4>
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="index.html#excursoes">Excursões</a></li>
+          <li><a href="sobre.html">Sobre</a></li>
+          <li><a href="contato.html">Contato</a></li>
+          <li><a href="promo.html">Reservar</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contato</h4>
+        <p>📱 (31) 9 9999-9999</p>
+        <p>📧 email.exemplo@gmail.com</p>
+        <p>📍 Contagem, MG</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>2026 Cabo Frio Excursões - Leo Tatu(goat do riacho)</p>
+    </div>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
+
