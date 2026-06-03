@@ -29,7 +29,7 @@ if (isset($_GET['export']) && $_GET['export'] === 'csv' && isset($_SESSION['loga
                 $c['data_pref'],
                 $c['mensagem'],
                 $c['ip'],
-                $c['criado_em']
+                $c['criado_em'] ? date('d/m/Y H:i', strtotime($c['criado_em'])) : '—'
             ]);
         }
         exit;
@@ -248,7 +248,7 @@ $pacotes = [
           <td><?= (int)$c['pessoas'] ?></td>
           <td><?= htmlspecialchars($c['data_pref'] ?: '—') ?></td>
           <td><?= htmlspecialchars($c['mensagem'] ?: '—') ?></td>
-          <td><?= htmlspecialchars($c['criado_em']) ?></td>
+          <td><?= $c['criado_em'] ? date('d/m/Y H:i', strtotime($c['criado_em'])) : '—' ?></td>
         </tr>
         <?php endforeach; ?>
       </tbody>

@@ -109,13 +109,17 @@ try {
             data_pref TEXT,
             mensagem  TEXT,
             ip        TEXT,
-            criado_em TEXT    DEFAULT (datetime('now','localtime'))
+            criado_em TEXT
         )
     ");
 
+    $tz = new DateTimeZone('America/Sao_Paulo');
+    $agora = new DateTime('now', $tz);
+    $criado_em = $agora->format('Y-m-d H:i:s');
+
     $stmt = $pdo->prepare("
-        INSERT INTO clientes (nome, telefone, email, pacote, pessoas, data_pref, mensagem, ip)
-        VALUES (:nome, :telefone, :email, :pacote, :pessoas, :data_pref, :mensagem, :ip)
+        INSERT INTO clientes (nome, telefone, email, pacote, pessoas, data_pref, mensagem, ip, criado_em)
+        VALUES (:nome, :telefone, :email, :pacote, :pessoas, :data_pref, :mensagem, :ip, :criado_em)
     ");
 
     $stmt->execute([
@@ -126,7 +130,8 @@ try {
         ':pessoas'   => $pessoas,
         ':data_pref' => trim($dados['data'] ?? ''),
         ':mensagem'  => trim($dados['mensagem'] ?? ''),
-        ':ip'        => $ip
+        ':ip'        => $ip,
+        ':criado_em' => $criado_em
     ]);
 
     http_response_code(200);
