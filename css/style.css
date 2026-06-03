@@ -1025,3 +1025,15 @@ footer {
 @media (max-width: 700px) {
   .promo-hero-content { padding: 48px 16px; }
 }
+
+.btn-card-info {
+  display: inline-block;
+  text-align: center;
+  background: var(--cinza-claro);
+  color: var(--azul-escuro);
+  padding: 12px 28px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.92rem;
+  white-space: nowrap;
+}

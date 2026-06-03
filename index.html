@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cabo Frio Excursões</title>
-  <link rel="stylesheet" href="Cabo-Frio-Excursoes\css\style.css" />
+  <link rel="stylesheet" href="Cabo-Frio-Excursões/css/style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet" />
 </head>
 <body>
@@ -14,20 +14,14 @@
       <div class="logo">🌊 Cabo Frio Excursões</div>
       <ul class="nav-links">
         <li><a href="index.html">Início</a></li>
-        <li><a href="index.html#excursoes">Excursões</a></li>
         <li><a href="sobre.html">Sobre</a></li>
-        <li><a href="contato.html">Contato</a></li>
-        <li><a href="promo.html" class="btn-nav">Reservar</a></li>
-      </ul>
+        <li><a href="contato.html">Contato</a></li>      </ul>
       <button class="hamburger" id="hamburger">☰</button>
     </nav>
     <ul class="nav-mobile" id="nav-mobile">
       <li><a href="index.html" onclick="fecharMenu()">Início</a></li>
-      <li><a href="index.html#excursoes" onclick="fecharMenu()">Excursões</a></li>
       <li><a href="sobre.html" onclick="fecharMenu()">Sobre</a></li>
-      <li><a href="contato.html" onclick="fecharMenu()">Contato</a></li>
-      <li><a href="promo.html" onclick="fecharMenu()">Reservar</a></li>
-    </ul>
+      <li><a href="contato.html" onclick="fecharMenu()">Contato</a></li>    </ul>
   </header>
 
   <section class="hero" id="inicio">
@@ -36,7 +30,6 @@
       <span class="hero-tag">Excursões saindo de BH</span>
       <h1>Sua viagem para<br/><em>Cabo Frio</em> começa aqui</h1>
       <p>Pacotes completos, ônibus confortável e os melhores preços para você curtir o paraíso fluminense.</p>
-      <a href="promo.html" class="btn-primary">Quero reservar minha vaga</a>
     </div>
     <div class="hero-scroll">↓</div>
   </section>
@@ -72,80 +65,6 @@
     </div>
   </section>
 
-  <section class="excursoes reveal-up" id="excursoes">
-    <div class="container">
-      <h2 class="section-title">Nossas Excursões</h2>
-      <p class="section-sub">Saídas mensais de Belo Horizonte para Cabo Frio</p>
-      <div class="cards-grid">
-        <div class="card">
-          <div class="card-badge">Mais vendido</div>
-          <div class="card-img card-img-1"></div>
-          <div class="card-body">
-            <div class="card-body-top">
-              <h3>Final de Semana em Cabo Frio</h3>
-              <p>3 dias / 2 noites — Pousada + Ônibus incluso. Perfeito para quem quer descansar sem gastar muito.</p>
-              <ul class="card-incluso">
-                <li>✓ Ônibus ida e volta</li>
-                <li>✓ 2 noites de hospedagem</li>
-                <li>✓ Café da manhã</li>
-              </ul>
-            </div>
-            <div class="card-rodape">
-              <div class="card-preco">
-                <span class="de">De R$ 650</span>
-                <span class="por">R$ 490<small>/pessoa</small></span>
-              </div>
-              <a href="promo.html" class="btn-card">Reservar agora</a>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-img card-img-2"></div>
-          <div class="card-body">
-            <div class="card-body-top">
-              <h3>Semana Completa</h3>
-              <p>7 dias / 6 noites — Aproveite ao máximo as praias de Cabo Frio e região. Roteiro com passeios inclusos.</p>
-              <ul class="card-incluso">
-                <li>✓ Ônibus ida e volta</li>
-                <li>✓ 6 noites de hospedagem</li>
-                <li>✓ Café da manhã</li>
-                <li>✓ 1 passeio de barco</li>
-              </ul>
-            </div>
-            <div class="card-rodape">
-              <div class="card-preco">
-                <span class="de">De R$ 1.500</span>
-                <span class="por">R$ 1.190<small>/pessoa</small></span>
-              </div>
-              <a href="promo.html" class="btn-card">Reservar agora</a>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-img card-img-3"></div>
-          <div class="card-body">
-            <div class="card-body-top">
-              <h3>Feriado Prolongado</h3>
-              <p>4 dias / 3 noites — Aproveite os feriados com a família. Saídas especiais nas datas comemorativas.</p>
-              <ul class="card-incluso">
-                <li>✓ Ônibus ida e volta</li>
-                <li>✓ 3 noites de hospedagem</li>
-                <li>✓ Café da manhã</li>
-              </ul>
-            </div>
-            <div class="card-rodape">
-              <div class="card-preco">
-                <span class="de">De R$ 850</span>
-                <span class="por">R$ 690<small>/pessoa</small></span>
-              </div>
-              <a href="promo.html" class="btn-card">Reservar agora</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <footer>
     <div class="container footer-inner">
       <div class="footer-col">
@@ -156,11 +75,8 @@
         <h4>Links</h4>
         <ul>
           <li><a href="index.html">Início</a></li>
-          <li><a href="index.html#excursoes">Excursões</a></li>
           <li><a href="sobre.html">Sobre</a></li>
-          <li><a href="contato.html">Contato</a></li>
-          <li><a href="promo.html">Reservar</a></li>
-        </ul>
+          <li><a href="contato.html">Contato</a></li>        </ul>
       </div>
       <div class="footer-col">
         <h4>Contato</h4>
