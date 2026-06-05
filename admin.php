@@ -2,10 +2,16 @@
 // senha default será entregue junto ao projeto(pode ser alterada pelo dono do site, LeoTatu)
 $SENHA = '********';
 
-session_start();
-session_regenerate_id(true);
+$token_valido = hash('sha256', $SENHA . 'cabo_frio_token_salt');
 
-if (isset($_GET['export']) && $_GET['export'] === 'csv' && isset($_SESSION['logado']) && $_SESSION['logado'] === true) {
+function logado() {
+    global $token_valido;
+    return isset($_GET['token']) && hash_equals($token_valido, $_GET['token']);
+}
+
+$token = $_GET['token'] ?? '';
+
+if (isset($_GET['export']) && $_GET['export'] === 'csv' && logado()) {
     $db_path = __DIR__ . '/banco/clientes.db';
     if (file_exists($db_path)) {
         $pdo = new PDO('sqlite:' . $db_path);
@@ -16,7 +22,7 @@ if (isset($_GET['export']) && $_GET['export'] === 'csv' && isset($_SESSION['loga
         header('Content-Disposition: attachment; filename=clientes_' . date('Y-m-d_H-i-s') . '.csv');
 
         $output = fopen('php://output', 'w');
-        fputcsv($output, ['ID', 'Nome', 'Telefone', 'E-mail', 'Pacote', 'Pessoas', 'Data Preferida', 'Mensagem', 'IP', 'Criado em']);
+        fputcsv($output, ['ID', 'Nome', 'Telefone', 'E-mail', 'Pacote', 'Pessoas', 'Data Preferida', 'Mensagem', 'Recebido em']);
 
         foreach ($clientes as $c) {
             fputcsv($output, [
@@ -28,7 +34,6 @@ if (isset($_GET['export']) && $_GET['export'] === 'csv' && isset($_SESSION['loga
                 $c['pessoas'],
                 $c['data_pref'],
                 $c['mensagem'],
-                $c['ip'],
                 $c['criado_em'] ? date('d/m/Y H:i', strtotime($c['criado_em'])) : '—'
             ]);
         }
@@ -38,28 +43,15 @@ if (isset($_GET['export']) && $_GET['export'] === 'csv' && isset($_SESSION['loga
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['senha'])) {
     if ($_POST['senha'] === $SENHA) {
-        $_SESSION['logado'] = true;
-        $_SESSION['login_time'] = time();
+        header('Location: admin.php?token=' . $token_valido);
+        exit;
     } else {
         $erro = true;
     }
 }
 
-if (isset($_GET['sair'])) {
-    session_destroy();
-    header('Location: admin.php');
-    exit;
-}
-
-$logado = $_SESSION['logado'] ?? false;
-
-if ($logado && (time() - ($_SESSION['login_time'] ?? 0) > 1800)) {
-    session_destroy();
-    $logado = false;
-}
-
 $clientes = [];
-if ($logado) {
+if (logado()) {
     $db_path = __DIR__ . '/banco/clientes.db';
     if (file_exists($db_path)) {
         try {
@@ -171,7 +163,7 @@ $pacotes = [
 </head>
 <body>
 
-<?php if (!$logado): ?>
+<?php if (!logado()): ?>
   <div class="login-wrap">
     <div class="login-box">
       <h2>🌊 Admin</h2>
@@ -190,8 +182,8 @@ $pacotes = [
   <div class="admin-header">
     <h1>🌊 Cabo Frio Excursões — Painel de Clientes(Interessados)</h1>
     <div class="buttons">
-      <a href="?export=csv">📥 Exportar CSV</a>
-      <a href="?sair=1">Sair</a>
+      <a href="?token=<?= htmlspecialchars($token) ?>&export=csv">📥 Exportar CSV</a>
+      <a href="admin.php">Sair</a>
     </div>
   </div>
 
