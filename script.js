@@ -62,7 +62,7 @@ async function enviarFormulario() {
   btn.textContent = 'Enviando...';
 
   try {
-    const response = await fetch('salvar.php', {
+    const response = await fetch('/salvar.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ nome, telefone, email, pacote, pessoas, data, mensagem })

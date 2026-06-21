@@ -1,6 +1,9 @@
 <?php
-// senha default será entregue junto ao projeto(pode ser alterada pelo dono do site, LeoTatu)
+// senha pode ser trocada no campo abaixo. senha padrão será entregue ao dono do site(leotatu)
 $SENHA = '********';
+
+session_start();
+session_regenerate_id(true);
 
 $token_valido = hash('sha256', $SENHA . 'cabo_frio_token_salt');
 
@@ -9,10 +12,9 @@ function logado() {
     return isset($_GET['token']) && hash_equals($token_valido, $_GET['token']);
 }
 
-$token = $_GET['token'] ?? '';
-
+// Export CSV - CORRIGIDO
 if (isset($_GET['export']) && $_GET['export'] === 'csv' && logado()) {
-    $db_path = __DIR__ . '/banco/clientes.db';
+    $db_path = __DIR__ . '/../banco/clientes.db';
     if (file_exists($db_path)) {
         $pdo = new PDO('sqlite:' . $db_path);
         $stmt = $pdo->query("SELECT * FROM clientes ORDER BY criado_em DESC");
@@ -22,7 +24,7 @@ if (isset($_GET['export']) && $_GET['export'] === 'csv' && logado()) {
         header('Content-Disposition: attachment; filename=clientes_' . date('Y-m-d_H-i-s') . '.csv');
 
         $output = fopen('php://output', 'w');
-        fputcsv($output, ['ID', 'Nome', 'Telefone', 'E-mail', 'Pacote', 'Pessoas', 'Data Preferida', 'Mensagem', 'Recebido em']);
+        fputcsv($output, ['ID', 'Nome', 'Telefone', 'E-mail', 'Pacote', 'Pessoas', 'Data Preferida', 'Mensagem', 'IP', 'Criado em']);
 
         foreach ($clientes as $c) {
             fputcsv($output, [
@@ -34,7 +36,8 @@ if (isset($_GET['export']) && $_GET['export'] === 'csv' && logado()) {
                 $c['pessoas'],
                 $c['data_pref'],
                 $c['mensagem'],
-                $c['criado_em'] ? date('d/m/Y H:i', strtotime($c['criado_em'])) : '—'
+                $c['ip'] ?? '',
+                $c['criado_em']
             ]);
         }
         exit;
@@ -43,7 +46,7 @@ if (isset($_GET['export']) && $_GET['export'] === 'csv' && logado()) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['senha'])) {
     if ($_POST['senha'] === $SENHA) {
-        header('Location: admin.php?token=' . $token_valido);
+        header('Location: index.php?token=' . $token_valido);
         exit;
     } else {
         $erro = true;
@@ -52,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['senha'])) {
 
 $clientes = [];
 if (logado()) {
-    $db_path = __DIR__ . '/banco/clientes.db';
+    $db_path = __DIR__ . '/../banco/clientes.db';
     if (file_exists($db_path)) {
         try {
             $pdo = new PDO('sqlite:' . $db_path);
@@ -82,17 +85,13 @@ $pacotes = [
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Source Sans 3', sans-serif; background: #f0f4f8; color: #2c2c2c; }
     a { color: #2980b9; text-decoration: none; }
-
-    .login-wrap {
-      min-height: 100vh; display: flex; align-items: center; justify-content: center;
-    }
+    .login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; }
     .login-box {
       background: white; border-radius: 12px; padding: 40px 36px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.12); width: 100%; max-width: 380px;
-      text-align: center;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12); width: 100%; max-width: 380px; text-align: center;
     }
     .login-box h2 { color: #0d3d52; margin-bottom: 8px; font-size: 1.5rem; }
-    .login-box p  { color: #777; font-size: 0.9rem; margin-bottom: 28px; }
+    .login-box p { color: #777; font-size: 0.9rem; margin-bottom: 28px; }
     .login-box input {
       width: 100%; border: 1.5px solid #d0dce6; border-radius: 7px;
       padding: 12px 14px; font-size: 1rem; margin-bottom: 14px; outline: none;
@@ -110,55 +109,34 @@ $pacotes = [
       background: #0d3d52; color: white; padding: 16px 32px;
       display: flex; align-items: center; justify-content: space-between;
     }
-    .admin-header h1 { font-size: 1.2rem; }
     .admin-header .buttons a {
       color: white; background: #2980b9; padding: 8px 16px; border-radius: 6px;
       font-size: 0.9rem; margin-left: 10px;
     }
     .admin-body { padding: 32px; }
 
-    .stats {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 20px; margin-bottom: 32px;
-    }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 32px; }
     .stat-card {
       background: white; border-radius: 10px; padding: 24px;
       box-shadow: 0 2px 12px rgba(0,0,0,0.08); text-align: center;
     }
     .stat-card strong { display: block; font-size: 2.2rem; color: #1a5f7a; }
-    .stat-card span   { font-size: 0.88rem; color: #777; }
+    .stat-card span { font-size: 0.88rem; color: #777; }
 
     table {
       width: 100%; background: white; border-radius: 10px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.08); border-collapse: collapse;
-      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08); border-collapse: collapse; overflow: hidden;
     }
-    th {
-      background: #0d3d52; color: white; padding: 12px 16px;
-      font-size: 0.85rem; text-align: left; font-weight: 600;
-    }
-    td {
-      padding: 12px 16px; font-size: 0.88rem;
-      border-bottom: 1px solid #f0f4f8;
-    }
-    tr:last-child td { border-bottom: none; }
+    th { background: #0d3d52; color: white; padding: 12px 16px; font-size: 0.85rem; text-align: left; }
+    td { padding: 12px 16px; font-size: 0.88rem; border-bottom: 1px solid #f0f4f8; }
     tr:hover td { background: #f8fafc; }
 
-    .badge {
-      display: inline-block; padding: 3px 10px; border-radius: 20px;
-      font-size: 0.78rem; font-weight: 600;
-    }
-    .badge-fds     { background: #d6eaf8; color: #1a5276; }
-    .badge-semana  { background: #d5f5e3; color: #1e8449; }
+    .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; }
+    .badge-fds { background: #d6eaf8; color: #1a5276; }
+    .badge-semana { background: #d5f5e3; color: #1e8449; }
     .badge-feriado { background: #fdebd0; color: #a04000; }
 
     .vazia { text-align: center; padding: 48px; color: #aaa; }
-
-    @media(max-width:700px) {
-      .stats { grid-template-columns: 1fr 1fr; }
-      .admin-body { padding: 16px; }
-      th, td { padding: 10px 10px; font-size: 0.8rem; }
-    }
   </style>
 </head>
 <body>
@@ -167,7 +145,7 @@ $pacotes = [
   <div class="login-wrap">
     <div class="login-box">
       <h2>🌊 Admin</h2>
-      <p>Cabo Frio Excursões — Painel de Clientes(Interessados)</p>
+      <p>Cabo Frio Excursões — Painel de Clientes</p>
       <?php if (!empty($erro)): ?>
         <p class="erro-msg">Senha incorreta. Tente novamente.</p>
       <?php endif; ?>
@@ -177,35 +155,24 @@ $pacotes = [
       </form>
     </div>
   </div>
-
 <?php else: ?>
   <div class="admin-header">
-    <h1>🌊 Cabo Frio Excursões — Painel de Clientes(Interessados)</h1>
+    <h1>🌊 Cabo Frio Excursões — Painel de Clientes</h1>
     <div class="buttons">
-      <a href="?token=<?= htmlspecialchars($token) ?>&export=csv">📥 Exportar CSV</a>
-      <a href="admin.php">Sair</a>
+      <a href="?token=<?= htmlspecialchars($_GET['token'] ?? '') ?>&export=csv">📥 Exportar CSV</a>
+      <a href="/admin/index.php">Sair</a>
     </div>
   </div>
 
   <div class="admin-body">
-
     <?php if (isset($db_erro)): ?>
-      <p style="color:red;margin-bottom:20px">Erro no banco de dados: <?= htmlspecialchars($db_erro) ?></p>
+      <p style="color:red;margin-bottom:20px">Erro no banco: <?= htmlspecialchars($db_erro) ?></p>
     <?php endif; ?>
 
     <div class="stats">
-      <div class="stat-card">
-        <strong><?= count($clientes) ?></strong>
-        <span>Total de interessados</span>
-      </div>
-      <div class="stat-card">
-        <strong><?= array_sum(array_column($clientes, 'pessoas')) ?: 0 ?></strong>
-        <span>Viajantes interessados</span>
-      </div>
-      <div class="stat-card">
-        <strong><?= count(array_filter($clientes, fn($c) => !empty($c['email']))) ?></strong>
-        <span>Com e-mail</span>
-      </div>
+      <div class="stat-card"><strong><?= count($clientes) ?></strong><span>Total de interessados</span></div>
+      <div class="stat-card"><strong><?= array_sum(array_column($clientes, 'pessoas')) ?: 0 ?></strong><span>Viajantes interessados</span></div>
+      <div class="stat-card"><strong><?= count(array_filter($clientes, fn($c) => !empty($c['email']))) ?></strong><span>Com e-mail</span></div>
     </div>
 
     <?php if (empty($clientes)): ?>
@@ -232,15 +199,11 @@ $pacotes = [
           <td><strong><?= htmlspecialchars($c['nome']) ?></strong></td>
           <td><a href="https://wa.me/55<?= preg_replace('/\D/','',$c['telefone']) ?>" target="_blank">📱 <?= htmlspecialchars($c['telefone']) ?></a></td>
           <td><?= htmlspecialchars($c['email'] ?: '—') ?></td>
-          <td>
-            <span class="badge badge-<?= $c['pacote'] ?>">
-              <?= htmlspecialchars($pacotes[$c['pacote']] ?? $c['pacote']) ?>
-            </span>
-          </td>
+          <td><span class="badge badge-<?= $c['pacote'] ?>"><?= htmlspecialchars($pacotes[$c['pacote']] ?? $c['pacote']) ?></span></td>
           <td><?= (int)$c['pessoas'] ?></td>
           <td><?= htmlspecialchars($c['data_pref'] ?: '—') ?></td>
           <td><?= htmlspecialchars($c['mensagem'] ?: '—') ?></td>
-          <td><?= $c['criado_em'] ? date('d/m/Y H:i', strtotime($c['criado_em'])) : '—' ?></td>
+          <td><?= htmlspecialchars($c['criado_em'] ?: '—') ?></td>
         </tr>
         <?php endforeach; ?>
       </tbody>
@@ -248,6 +211,5 @@ $pacotes = [
     <?php endif; ?>
   </div>
 <?php endif; ?>
-
 </body>
 </html>
