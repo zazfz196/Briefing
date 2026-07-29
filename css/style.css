@@ -1038,3 +1038,66 @@ footer {
   font-size: 0.92rem;
   white-space: nowrap;
 }
+
+.btn-hero {
+  display: inline-block;
+  margin-top: 24px;
+  padding: 13px 24px;
+  border-radius: 6px;
+  background: var(--azul-claro);
+  color: white;
+  font-weight: 700;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.btn-hero:hover { background: #1c6ea4; transform: translateY(-2px); }
+
+/* ===== DESTINOS E DETALHES ===== */
+.page-hero {
+  padding: 120px 0 72px;
+  background: linear-gradient(135deg, var(--azul-escuro), var(--azul));
+  color: white;
+  text-align: center;
+}
+
+.page-hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.1rem, 5vw, 3.5rem);
+  margin: 14px auto;
+  line-height: 1.15;
+}
+
+.page-hero p { max-width: 620px; margin: 0 auto; color: rgba(255,255,255,.82); }
+
+.destinos { padding: 80px 0; background: var(--cinza-claro); }
+.destinos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+.destino-card { background: white; border-radius: var(--radius); overflow: hidden; box-shadow: var(--sombra); display: flex; flex-direction: column; }
+.destino-card-img { height: 205px; background-size: cover; background-position: center; }
+.destino-card-img.cabo-frio { background-image: url('/imagens/hero_s-card1.jpg'); }
+.destino-card-img.ilha-japonesa { background-image: url('/imagens/card2.jpg'); }
+.destino-card-img.praia-do-forte { background-image: url('/imagens/card3.jpg'); }
+.destino-card-body { padding: 24px; display: flex; flex-direction: column; flex: 1; }
+.destino-card h2 { font-family: 'Playfair Display', serif; font-size: 1.35rem; color: var(--azul-escuro); margin-bottom: 10px; }
+.destino-card p { color: var(--cinza); font-size: .92rem; margin-bottom: 20px; }
+.destino-meta { display: flex; gap: 12px; color: var(--verde); font-size: .82rem; font-weight: 600; margin-bottom: 22px; }
+.destino-card .btn-card { margin-top: auto; }
+
+.destino-detalhe { padding: 80px 0; background: var(--branco); }
+.destino-detalhe-grid { display: grid; grid-template-columns: 1.25fr .75fr; gap: 48px; align-items: start; }
+.destino-galeria { height: 390px; border-radius: var(--radius); background: url('/imagens/card2.jpg') center/cover no-repeat; box-shadow: var(--sombra-hover); }
+.detalhe-texto h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--azul-escuro); margin-bottom: 16px; }
+.detalhe-texto p { color: var(--cinza); margin-bottom: 16px; }
+.detalhe-lista { list-style: none; margin: 22px 0; }
+.detalhe-lista li { padding: 9px 0; color: var(--cinza); border-bottom: 1px solid var(--areia-escura); }
+.reserva-resumo { background: var(--areia); padding: 28px; border-radius: var(--radius); box-shadow: var(--sombra); }
+.reserva-resumo h3 { color: var(--azul-escuro); font-family: 'Playfair Display', serif; font-size: 1.4rem; margin-bottom: 12px; }
+.reserva-resumo p { color: var(--cinza); margin-bottom: 20px; }
+
+.reserva-page { padding: 80px 0; background: var(--cinza-claro); }
+.reserva-page .form-wrapper { max-width: 760px; }
+
+@media (max-width: 900px) {
+  .destinos-grid { grid-template-columns: 1fr; max-width: 520px; margin: 0 auto; }
+  .destino-detalhe-grid { grid-template-columns: 1fr; }
+  .destino-galeria { height: 280px; }
+}
