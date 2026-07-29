@@ -81,8 +81,10 @@ $pacotes = [
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin — Cabo Frio Excursões</title>
-  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet"/>
   <style>
+    @font-face { font-family: 'Source Sans 3'; src: url('/fontes/source-sans-3-400.ttf') format('truetype'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Source Sans 3'; src: url('/fontes/source-sans-3-600.ttf') format('truetype'); font-weight: 600; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Source Sans 3'; src: url('/fontes/source-sans-3-700.ttf') format('truetype'); font-weight: 700; font-style: normal; font-display: swap; }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Source Sans 3', sans-serif; background: #f0f4f8; color: #2c2c2c; }
     a { color: #2980b9; text-decoration: none; }
