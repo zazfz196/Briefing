@@ -160,7 +160,7 @@ $pacotes = [
   <div class="admin-header">
     <h1>🌊 Cabo Frio Excursões — Painel de Clientes</h1>
     <div class="buttons">
-      <a href="?token=<?= htmlspecialchars($_GET['token'] ?? '') ?>&export=csv">📥 Exportar CSV</a>
+      <a href="?token=<?= htmlspecialchars($_GET['token'] ?? '') ?>&export=csv">📥 Exportar Planilha</a>
       <a href="/admin/index.php">Sair</a>
     </div>
   </div>
