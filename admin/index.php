@@ -36,7 +36,7 @@ if (isset($_GET['export']) && $_GET['export'] === 'csv' && logado()) {
                 $c['pessoas'],
                 $c['data_pref'],
                 $c['mensagem'],
-                $c['origem'] ?? 'Não informado',
+                ($c['origem'] ?? '') === 'nao_informado' ? 'Não informado' : ($c['origem'] ?? 'Não informado'),
                 $c['ip'] ?? '',
                 $c['criado_em']
             ]);

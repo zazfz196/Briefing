@@ -50,8 +50,22 @@ if (!in_array($dados['pacote'], ['fds', 'semana', 'feriado'])) {
     exit;
 }
 
-$origem = $dados['origem'] ?? 'reserva';
-if (!in_array($origem, ['promo', 'reserva'], true)) {
+$origem = $dados['origem'] ?? '';
+
+if ($origem === '') {
+    $referenciador = $_SERVER['HTTP_REFERER'] ?? '';
+    $caminho_referenciador = parse_url($referenciador, PHP_URL_PATH) ?: '';
+
+    if (preg_match('#/(promo)(/|$)#', $caminho_referenciador)) {
+        $origem = 'promo';
+    } elseif (preg_match('#/(reserva)(/|$)#', $caminho_referenciador)) {
+        $origem = 'reserva';
+    } else {
+        $origem = 'nao_informado';
+    }
+}
+
+if (!in_array($origem, ['promo', 'reserva', 'nao_informado'], true)) {
     http_response_code(422);
     echo json_encode(['erro' => 'Origem inválida']);
     exit;
