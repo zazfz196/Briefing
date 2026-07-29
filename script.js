@@ -1,28 +1,42 @@
 const hamburger = document.getElementById('hamburger');
 const navMobile = document.getElementById('nav-mobile');
 
-hamburger.addEventListener('click', () => {
-  navMobile.classList.toggle('open');
-});
-
-function fecharMenu() {
-  navMobile.classList.remove('open');
+if (hamburger && navMobile) {
+  hamburger.addEventListener('click', () => {
+    navMobile.classList.toggle('open');
+  });
 }
 
-document.getElementById('telefone').addEventListener('input', function (e) {
-  let v = e.target.value.replace(/\D/g, '');
-  if (v.length > 11) v = v.slice(0, 11);
-  if (v.length > 6) {
-    v = '(' + v.slice(0,2) + ') ' + v.slice(2,7) + '-' + v.slice(7);
-  } else if (v.length > 2) {
-    v = '(' + v.slice(0,2) + ') ' + v.slice(2);
-  } else if (v.length > 0) {
-    v = '(' + v;
-  }
-  e.target.value = v;
-});
+function fecharMenu() {
+  if (navMobile) navMobile.classList.remove('open');
+}
+
+const telefoneInput = document.getElementById('telefone');
+
+if (telefoneInput) {
+  telefoneInput.addEventListener('input', function (e) {
+    let v = e.target.value.replace(/\D/g, '');
+    if (v.length > 11) v = v.slice(0, 11);
+    if (v.length > 6) {
+      v = '(' + v.slice(0,2) + ') ' + v.slice(2,7) + '-' + v.slice(7);
+    } else if (v.length > 2) {
+      v = '(' + v.slice(0,2) + ') ' + v.slice(2);
+    } else if (v.length > 0) {
+      v = '(' + v;
+    }
+    e.target.value = v;
+  });
+}
+
+const pacoteSelecionado = new URLSearchParams(window.location.search).get('pacote');
+const pacoteInput = document.getElementById('pacote');
+if (pacoteInput && ['fds', 'semana', 'feriado'].includes(pacoteSelecionado)) {
+  pacoteInput.value = pacoteSelecionado;
+}
 
 async function enviarFormulario() {
+  const form = document.getElementById('reserva-form');
+  if (!form) return;
   const nome     = document.getElementById('nome').value.trim();
   const telefone = document.getElementById('telefone').value.trim();
   const email    = document.getElementById('email').value.trim();
@@ -71,14 +85,15 @@ async function enviarFormulario() {
     const result = await response.json();
 
     if (response.ok && result.sucesso) {
-      document.getElementById('reserva-form').style.display = 'none';
+      form.style.display = 'none';
       document.getElementById('mensagem-sucesso').style.display = 'block';
       document.getElementById('mensagem-sucesso').scrollIntoView({ behavior: 'smooth', block: 'center' });
     } else {
       throw new Error(result.erro || 'Erro no servidor');
     }
   } catch (err) {
-    document.getElementById('mensagem-erro').style.display = 'block';
+    const erro = document.getElementById('mensagem-erro');
+    if (erro) erro.style.display = 'block';
     btn.disabled = false;
     btn.textContent = 'Quero ser contactado →';
   }
@@ -97,16 +112,18 @@ window.addEventListener('scroll', () => {
   const scrollTop = window.scrollY;
   const docHeight = document.documentElement.scrollHeight - window.innerHeight;
   const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-  progressBar.style.width = progress + '%';
+  if (progressBar) progressBar.style.width = progress + '%';
 });
 
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.12 });
+if ('IntersectionObserver' in window) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
 
-document.querySelectorAll('.reveal-up').forEach(el => observer.observe(el));
+  document.querySelectorAll('.reveal-up').forEach(el => observer.observe(el));
+}
