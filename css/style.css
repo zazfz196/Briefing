@@ -1133,6 +1133,9 @@ footer {
 .destino-detalhe { padding: 80px 0; background: var(--branco); }
 .destino-detalhe-grid { display: grid; grid-template-columns: 1.25fr .75fr; gap: 48px; align-items: start; }
 .destino-galeria { height: 390px; border-radius: var(--radius); background: url('/imagens/card2.jpg') center/cover no-repeat; box-shadow: var(--sombra-hover); }
+.destino-galeria-cabo { background-image: url('/imagens/hero_s-card1.jpg'); }
+.destino-galeria-ilha { background-image: url('/imagens/card2.jpg'); }
+.destino-galeria-forte { background-image: url('/imagens/card3.jpg'); }
 .detalhe-texto h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--azul-escuro); margin-bottom: 16px; }
 .detalhe-texto p { color: var(--cinza); margin-bottom: 16px; }
 .detalhe-lista { list-style: none; margin: 22px 0; }
