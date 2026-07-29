@@ -44,6 +44,7 @@ async function enviarFormulario() {
   const pessoas  = document.getElementById('pessoas').value;
   const data     = document.getElementById('data').value;
   const mensagem = document.getElementById('mensagem').value.trim();
+  const origem   = document.body.dataset.leadSource || 'reserva';
 
   if (!nome || !telefone || !pacote || !pessoas) {
     alert('Por favor, preencha todos os campos obrigatórios (*).');
@@ -79,7 +80,7 @@ async function enviarFormulario() {
     const response = await fetch('/salvar.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nome, telefone, email, pacote, pessoas, data, mensagem })
+      body: JSON.stringify({ nome, telefone, email, pacote, pessoas, data, mensagem, origem })
     });
 
     const result = await response.json();

@@ -50,6 +50,13 @@ if (!in_array($dados['pacote'], ['fds', 'semana', 'feriado'])) {
     exit;
 }
 
+$origem = $dados['origem'] ?? 'reserva';
+if (!in_array($origem, ['promo', 'reserva'], true)) {
+    http_response_code(422);
+    echo json_encode(['erro' => 'Origem inválida']);
+    exit;
+}
+
 $pessoas = (int)$dados['pessoas'];
 if ($pessoas < 1 || $pessoas > 20) {
     http_response_code(422);
@@ -108,18 +115,24 @@ try {
             pessoas   INTEGER NOT NULL,
             data_pref TEXT,
             mensagem  TEXT,
+            origem    TEXT,
             ip        TEXT,
             criado_em TEXT
         )
     ");
+
+    $colunas = $pdo->query("PRAGMA table_info(clientes)")->fetchAll(PDO::FETCH_COLUMN, 1);
+    if (!in_array('origem', $colunas, true)) {
+        $pdo->exec("ALTER TABLE clientes ADD COLUMN origem TEXT");
+    }
 
     $tz = new DateTimeZone('America/Sao_Paulo');
     $agora = new DateTime('now', $tz);
     $criado_em = $agora->format('Y-m-d H:i:s');
 
     $stmt = $pdo->prepare("
-        INSERT INTO clientes (nome, telefone, email, pacote, pessoas, data_pref, mensagem, ip, criado_em)
-        VALUES (:nome, :telefone, :email, :pacote, :pessoas, :data_pref, :mensagem, :ip, :criado_em)
+        INSERT INTO clientes (nome, telefone, email, pacote, pessoas, data_pref, mensagem, origem, ip, criado_em)
+        VALUES (:nome, :telefone, :email, :pacote, :pessoas, :data_pref, :mensagem, :origem, :ip, :criado_em)
     ");
 
     $stmt->execute([
@@ -130,6 +143,7 @@ try {
         ':pessoas'   => $pessoas,
         ':data_pref' => trim($dados['data'] ?? ''),
         ':mensagem'  => trim($dados['mensagem'] ?? ''),
+        ':origem'    => $origem,
         ':ip'        => $ip,
         ':criado_em' => $criado_em
     ]);

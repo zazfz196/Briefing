@@ -24,7 +24,7 @@ if (isset($_GET['export']) && $_GET['export'] === 'csv' && logado()) {
         header('Content-Disposition: attachment; filename=clientes_' . date('Y-m-d_H-i-s') . '.csv');
 
         $output = fopen('php://output', 'w');
-        fputcsv($output, ['ID', 'Nome', 'Telefone', 'E-mail', 'Pacote', 'Pessoas', 'Data Preferida', 'Mensagem', 'IP', 'Criado em']);
+        fputcsv($output, ['ID', 'Nome', 'Telefone', 'E-mail', 'Pacote', 'Pessoas', 'Data Preferida', 'Mensagem', 'Origem', 'IP', 'Criado em']);
 
         foreach ($clientes as $c) {
             fputcsv($output, [
@@ -36,6 +36,7 @@ if (isset($_GET['export']) && $_GET['export'] === 'csv' && logado()) {
                 $c['pessoas'],
                 $c['data_pref'],
                 $c['mensagem'],
+                $c['origem'] ?? 'Não informado',
                 $c['ip'] ?? '',
                 $c['criado_em']
             ]);
@@ -189,6 +190,7 @@ $pacotes = [
           <th>Pessoas</th>
           <th>Data pref.</th>
           <th>Observações</th>
+          <th>Origem</th>
           <th>Recebido em</th>
         </tr>
       </thead>
@@ -203,6 +205,7 @@ $pacotes = [
           <td><?= (int)$c['pessoas'] ?></td>
           <td><?= htmlspecialchars($c['data_pref'] ?: '—') ?></td>
           <td><?= htmlspecialchars($c['mensagem'] ?: '—') ?></td>
+          <td><?= htmlspecialchars(($c['origem'] ?? '') === 'promo' ? 'Promo' : (($c['origem'] ?? '') === 'reserva' ? 'Reserva' : 'Não informado')) ?></td>
           <td><?= htmlspecialchars($c['criado_em'] ?: '—') ?></td>
         </tr>
         <?php endforeach; ?>
